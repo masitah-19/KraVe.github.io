@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KraVe Vendor Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f5f6fa;
+    color:#222;
+}
+
+/* LOGIN */
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#5b21b6,#7c3aed,#a855f7);
+}
+
+.login-box{
+    width:380px;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
+
+.logo{
+    text-align:center;
+    font-size:38px;
+    font-weight:bold;
+    color:#6d28d9;
+    margin-bottom:8px;
+}
+
+.login-subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:30px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:#7c3aed;
+}
+
+.login-btn{
+    width:100%;
+    border:none;
+    padding:14px;
+    background:#7c3aed;
+    color:white;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#6d28d9;
+}
+
+.demo-login{
+    margin-top:15px;
+    text-align:center;
+    font-size:13px;
+    color:#777;
+}
+
+/* APP */
+.app{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:#241044;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:25px 15px;
+    z-index:10;
+}
+
+.sidebar-logo{
+    font-size:30px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.sidebar-logo span{
+    color:#c084fc;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#a78bfa;
+    margin:20px 12px 8px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    padding:13px 15px;
+    border-radius:10px;
+    margin:4px 0;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#ddd;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#7c3aed;
+    color:white;
+}
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #eee;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+.topbar h2{
+    color:#333;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    background:#7c3aed;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.content{
+    padding:30px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#777;
+    margin-top:5px;
+}
+
+/* BUTTON */
+.btn{
+    border:none;
+    padding:11px 17px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#7c3aed;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#6d28d9;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-warning{
+    background:#f59e0b;
+    color:white;
+}
+
+.btn-info{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+/* CARDS */
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    padding:22px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.stat-card .icon{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#ede9fe;
+    margin-bottom:15px;
+    font-size:21px;
+}
+
+.stat-card h3{
+    color:#777;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.stat-card .number{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    margin-bottom:20px;
+}
+
+.card h3{
+    margin-bottom:18px;
+}
+
+/* TABLE */
+.table-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:750px;
+}
+
+th,td{
+    padding:13px 12px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+}
+
+th{
+    background:#fafafa;
+    color:#555;
+    font-size:13px;
+}
+
+td{
+    font-size:14px;
+}
+
+.badge{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-yellow{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-red{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.badge-blue{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+/* SEARCH */
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.search{
+    padding:11px 14px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    width:260px;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:600px;
+    max-width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:18px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    font-size:25px;
+    cursor:pointer;
+    color:#777;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+}
+
+/* CHART */
+.chart{
+    height:250px;
+    display:flex;
+    align-items:flex-end;
+    gap:15px;
+    padding:20px 10px 0;
+}
+
+.bar-wrap{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+.bar{
+    width:100%;
+    max-width:45px;
+    background:#7c3aed;
+    border-radius:7px 7px 0 0;
+    min-height:10px;
+}
+
+.bar-label{
+    font-size:11px;
+    color:#777;
+    margin-top:8px;
+}
+
+.bar-value{
+    font-size:10px;
+    margin-bottom:4px;
+}
+
+/* REPORT */
+.report-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.report-box{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+}
+
+.report-box h4{
+    color:#777;
+    margin-bottom:10px;
+}
+
+.report-box strong{
+    font-size:28px;
+    color:#7c3aed;
+}
+
+/* WHATSAPP */
+.whatsapp-card{
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    border-radius:15px;
+    padding:20px;
+}
+
+.whatsapp-btn{
+    background:#22c55e;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* MOBILE */
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:900px){
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+        font-size:24px;
+        cursor:pointer;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .report-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+    .content{
+        padding:15px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .page-header{
+        align-items:flex-start;
+        gap:10px;
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-page" id="loginPage">
+    <div class="login-box">
+        <div class="logo">KraVe</div>
+        <div class="login-subtitle">Vendor Management System</div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+
+            <button class="login-btn" type="submit">Sign In</button>
+        </form>
+
+        <div class="demo-login">
+            Demo Login: admin / krave123
+        </div>
+    </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+            <span>Kra</span>Ve
+        </div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <div class="nav-item active" onclick="showPage('dashboard',this)">
+            📊 <span>Dashboard</span>
+        </div>
+
+        <div class="nav-item" onclick="showPage('deliveries',this)">
+            🚚 <span>Deliveries</span>
+        </div>
+
+        <div class="nav-item" onclick="showPage('sales',this)">
+            💰 <span>Sales</span>
+        </div>
+
+        <div class="nav-item" onclick="showPage('inventory',this)">
+            📦 <span>Inventory</span>
+        </div>
+
+        <div class="nav-item" onclick="showPage('returns',this)">
+            ↩️ <span>Returns</span>
+        </div>
+
+        <div class="nav-item" onclick="showPage('payments',this)">
+            💳 <span>Payments</span>
+        </div>
+
+        <div class="menu-title">Communication</div>
+
+        <div class="nav-item" onclick="showPage('whatsapp',this)">
+            📱 <span>WhatsApp</span>
+        </div>
+
+        <div class="menu-title">Analysis</div>
+
+        <div class="nav-item" onclick="showPage('reports',this)">
+            📈 <span>Reports</span>
+        </div>
+
+        <div class="menu-title">Account</div>
+
+        <div class="nav-item" onclick="logout()">
+            🚪 <span>Sign Out</span>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+            <div class="mobile-menu" onclick="toggleSidebar()">☰</div>
+
+            <h2 id="topTitle">Dashboard</h2>
+
+            <div class="user-info">
+                <div>
+                    <strong>KraVe Admin</strong><br>
+                    <small style="color:#777;">Vendor</small>
+                </div>
+                <div class="avatar">K</div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- DASHBOARD -->
+            <section class="page active" id="dashboard">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Welcome back to KraVe Vendor Management System.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('deliveryModal')">
+                        + New Delivery
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="icon">💰</div>
+                        <h3>Today's Sales</h3>
+                        <div class="number" id="todaySales">RM 0.00</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">🚚</div>
+                        <h3>Deliveries</h3>
+                        <div class="number" id="totalDeliveries">0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">💳</div>
+                        <h3>Outstanding</h3>
+                        <div class="number" id="outstanding">RM 0.00</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">↩️</div>
+                        <h3>Returns</h3>
+                        <div class="number" id="totalReturns">0</div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="card">
+                        <h3>Sales Overview</h3>
+                        <div class="chart" id="salesChart"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Quick Actions</h3>
+
+                        <button class="btn btn-primary" style="width:100%;margin-bottom:10px;"
+                            onclick="openModal('deliveryModal')">
+                            🚚 Add Delivery
+                        </button>
+
+                        <button class="btn btn-success" style="width:100%;margin-bottom:10px;"
+                            onclick="openModal('salesModal')">
+                            💰 Record Sale
+                        </button>
+
+                        <button class="btn btn-warning" style="width:100%;margin-bottom:10px;"
+                            onclick="openModal('returnModal')">
+                            ↩️ Record Return
+                        </button>
+
+                        <button class="whatsapp-btn" style="width:100%;"
+                            onclick="openPageByName('whatsapp')">
+                            📱 Send WhatsApp
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="card">
+                    <h3>Recent Deliveries</h3>
+                    <div class="table-card" style="padding:0;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Shop</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDeliveries"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- DELIVERIES -->
+            <section class="page" id="deliveries">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Delivery Management</h1>
+                        <p>Track all KraVe food deliveries.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openModal('deliveryModal')">
+                        + Add Delivery
+                    </button>
+                </div>
+
+                <div class="toolbar">
+                    <input class="search" id="deliverySearch"
+                           placeholder="Search shop..."
+                           onkeyup="renderDeliveries()">
+                </div>
+
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Delivery ID</th>
+                                <th>Shop / Café</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="deliveryTable"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+
+            <!-- SALES -->
+            <section class="page" id="sales">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Sales Management</h1>
+                        <p>Record and monitor KraVe sales.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openModal('salesModal')">
+                        + Record Sale
+                    </button>
+                </div>
+
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sale ID</th>
+                                <th>Shop</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="salesTable"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+
+            <!-- INVENTORY -->
+            <section class="page" id="inventory">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Inventory Management</h1>
+                        <p>Monitor available food stock and reduce food losses.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openModal('inventoryModal')">
+                        + Add Item
+                    </button>
+                </div>
+
+                <div class="table-card">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Sold</th>
+                                <th>Returned</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="inventoryTable"></tbody>
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- RETURNS -->
+            <section class="page" id="returns">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Returns Management</h1>
+                        <p>Track returned and unsold food items.</p>
+                    </div>
+
+                    <button class="btn btn-warning" onclick="openModal('returnModal')">
+                        + Record Return
+                    </button>
+                </div>
+
+                <div class="table-card">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Return ID</th>
+                                <th>Shop</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="returnsTable"></tbody>
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- PAYMENTS -->
+            <section class="page" id="payments">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Payment Management</h1>
+                        <p>Track paid and outstanding payments.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="icon">💰</div>
+                        <h3>Total Paid</h3>
+                        <div class="number" id="totalPaid">RM 0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">⏳</div>
+                        <h3>Total Outstanding</h3>
+                        <div class="number" id="paymentOutstanding">RM 0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">🧾</div>
+                        <h3>Total Transactions</h3>
+                        <div class="number" id="paymentTransactions">0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="icon">📊</div>
+                        <h3>Collection Rate</h3>
+                        <div class="number" id="collectionRate">0%</div>
+                    </div>
+
+                </div>
+
+                <div class="table-card">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Shop</th>
+                                <th>Invoice</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>WhatsApp</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="paymentTable"></tbody>
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- WHATSAPP -->
+            <section class="page" id="whatsapp">
+
+                <div class="page-header">
+                    <div>
+                        <h1>WhatsApp Communication</h1>
+                        <p>Communicate with shops and cafés directly through WhatsApp.</p>
+                    </div>
+                </div>
+
+                <div class="whatsapp-card">
+
+                    <h3>📱 Send WhatsApp Message</h3>
+
+                    <br>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Shop / Café</label>
+                            <input type="text" id="waShop" placeholder="Example: ABC Café">
+                        </div>
+
+                        <div class="form-group">
+                            <label>WhatsApp Number</label>
+                            <input type="text" id="waNumber" placeholder="60123456789">
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Message</label>
+
+                            <textarea id="waMessage" rows="6"
+                                placeholder="Type your message..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <button class="whatsapp-btn" onclick="sendWhatsApp()">
+                        📱 Open WhatsApp
+                    </button>
+
+                </div>
+
+                <br>
+
+                <div class="card">
+
+                    <h3>Quick WhatsApp Templates</h3>
+
+                    <button class="btn btn-primary"
+                        onclick="setWhatsAppTemplate('delivery')">
+                        🚚 Delivery Confirmation
+                    </button>
+
+                    <button class="btn btn-warning"
+                        onclick="setWhatsAppTemplate('payment')">
+                        💳 Payment Reminder
+                    </button>
+
+                    <button class="btn btn-success"
+                        onclick="setWhatsAppTemplate('invoice')">
+                        🧾 Invoice Message
+                    </button>
+
+                    <button class="btn btn-info"
+                        onclick="setWhatsAppTemplate('return')">
+                        ↩️ Return Confirmation
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- REPORTS -->
+            <section class="page" id="reports">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Reports & Analytics</h1>
+                        <p>Monitor KraVe business performance.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="window.print()">
+                        🖨️ Print Report
+                    </button>
+                </div>
+
+                <div class="report-grid">
+
+                    <div class="report-box">
+                        <h4>Total Sales</h4>
+                        <strong id="reportSales">RM 0</strong>
+                    </div>
+
+                    <div class="report-box">
+                        <h4>Total Deliveries</h4>
+                        <strong id="reportDeliveries">0</strong>
+                    </div>
+
+                    <div class="report-box">
+                        <h4>Food Returned</h4>
+                        <strong id="reportReturns">0</strong>
+                    </div>
+
+                    <div class="report-box">
+                        <h4>Paid Amount</h4>
+                        <strong id="reportPaid">RM 0</strong>
+                    </div>
+
+                    <div class="report-box">
+                        <h4>Outstanding</h4>
+                        <strong id="reportOutstanding">RM 0</strong>
+                    </div>
+
+                    <div class="report-box">
+                        <h4>Collection Rate</h4>
+                        <strong id="reportRate">0%</strong>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="card">
+                    <h3>Business Performance Summary</h3>
+
+                    <p id="reportSummary">
+                        KraVe business performance summary will appear here.
+                    </p>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+</div>
+
+
+<!-- DELIVERY MODAL -->
+<div class="modal" id="deliveryModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Add Delivery</h2>
+            <span class="close" onclick="closeModal('deliveryModal')">&times;</span>
+        </div>
+
+        <form id="deliveryForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Shop / Café</label>
+                    <input type="text" id="deliveryShop" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input type="date" id="deliveryDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Items / Product</label>
+                    <input type="text" id="deliveryItems" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Amount (RM)</label>
+                    <input type="number" id="deliveryTotal" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="deliveryStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Failed">Failed</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                    class="btn"
+                    onclick="closeModal('deliveryModal')">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="btn btn-primary">
+                    Save Delivery
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- SALES MODAL -->
+<div class="modal" id="salesModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Record Sale</h2>
+            <span class="close" onclick="closeModal('salesModal')">&times;</span>
+        </div>
+
+        <form id="salesForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Shop / Café</label>
+                    <input type="text" id="salesShop" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Product</label>
+                    <input type="text" id="salesProduct" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="salesQty" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Price per Item (RM)</label>
+                    <input type="number" id="salesPrice" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="salesDate" required>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                    class="btn"
+                    onclick="closeModal('salesModal')">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="btn btn-primary">
+                    Save Sale
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- INVENTORY MODAL -->
+<div class="modal" id="inventoryModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Add Inventory Item</h2>
+            <span class="close" onclick="closeModal('inventoryModal')">&times;</span>
+        </div>
+
+        <form id="inventoryForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="inventoryProduct" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="inventoryCategory" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="inventoryStock" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Sold Quantity</label>
+                    <input type="number" id="inventorySold" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Returned Quantity</label>
+                    <input type="number" id="inventoryReturned" required>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                    class="btn"
+                    onclick="closeModal('inventoryModal')">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="btn btn-primary">
+                    Save Item
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- RETURN MODAL -->
+<div class="modal" id="returnModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Record Return</h2>
+            <span class="close" onclick="closeModal('returnModal')">&times;</span>
+        </div>
+
+        <form id="returnForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Shop / Café</label>
+                    <input type="text" id="returnShop" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Product</label>
+                    <input type="text" id="returnProduct" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="returnQty" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="returnDate" required>
+                </div>
+
+                <div class="form-group full">
+                    <label>Reason</label>
+
+                    <select id="returnReason">
+                        <option>Unsold</option>
+                        <option>Damaged</option>
+                        <option>Expired</option>
+                        <option>Wrong Order</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                    class="btn"
+                    onclick="closeModal('returnModal')">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="btn btn-warning">
+                    Save Return
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let deliveries = JSON.parse(localStorage.getItem("kraveDeliveries")) || [
+    {
+        id:"DEL001",
+        shop:"ABC Café",
+        date:"2026-09-21",
+        items:"Chicken Wrap x20",
+        total:120,
+        status:"Delivered"
+    },
+    {
+        id:"DEL002",
+        shop:"Maju Coffee",
+        date:"2026-09-21",
+        items:"Tuna Sandwich x15",
+        total:90,
+        status:"Delivered"
+    },
+    {
+        id:"DEL003",
+        shop:"Urban Beans",
+        date:"2026-09-21",
+        items:"Pasta x10",
+        total:80,
+        status:"Pending"
+    }
+];
+
+let sales = JSON.parse(localStorage.getItem("kraveSales")) || [
+    {
+        id:"SAL001",
+        shop:"ABC Café",
+        product:"Chicken Wrap",
+        qty:20,
+        price:6,
+        date:"2026-09-21"
+    },
+    {
+        id:"SAL002",
+        shop:"Maju Coffee",
+        product:"Tuna Sandwich",
+        qty:15,
+        price:6,
+        date:"2026-09-21"
+    },
+    {
+        id:"SAL003",
+        shop:"Urban Beans",
+        product:"Pasta",
+        qty:10,
+        price:8,
+        date:"2026-09-20"
+    }
+];
+
+let inventory = JSON.parse(localStorage.getItem("kraveInventory")) || [
+    {
+        product:"Chicken Wrap",
+        category:"Food",
+        stock:50,
+        sold:20,
+        returned:2
+    },
+    {
+        product:"Tuna Sandwich",
+        category:"Food",
+        stock:40,
+        sold:15,
+        returned:3
+    },
+    {
+        product:"Pasta",
+        category:"Food",
+        stock:30,
+        sold:10,
+        returned:1
+    }
+];
+
+let returns = JSON.parse(localStorage.getItem("kraveReturns")) || [
+    {
+        id:"RET001",
+        shop:"ABC Café",
+        product:"Chicken Wrap",
+        qty:2,
+        reason:"Unsold",
+        date:"2026-09-21"
+    },
+    {
+        id:"RET002",
+        shop:"Maju Coffee",
+        product:"Tuna Sandwich",
+        qty:3,
+        reason:"Unsold",
+        date:"2026-09-21"
+    }
+];
+
+
+/* =========================
+   LOGIN
+========================= */
+
+document.getElementById("loginForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let username=document.getElementById("username").value;
+    let password=document.getElementById("password").value;
+
+    if(username==="admin" && password==="krave123"){
+
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("app").style.display="block";
+
+        localStorage.setItem("kraveLoggedIn","true");
+
+        renderAll();
+
+    }else{
+
+        alert("Invalid username or password.\n\nDemo Login:\nUsername: admin\nPassword: krave123");
+
+    }
+
+});
+
+
+function logout(){
+
+    localStorage.removeItem("kraveLoggedIn");
+
+    document.getElementById("app").style.display="none";
+    document.getElementById("loginPage").style.display="flex";
+
+}
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(page,element){
+
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    document.querySelectorAll(".nav-item").forEach(item=>{
+        item.classList.remove("active");
+    });
+
+    if(element){
+        element.classList.add("active");
+    }
+
+    let titles={
+        dashboard:"Dashboard",
+        deliveries:"Deliveries",
+        sales:"Sales",
+        inventory:"Inventory",
+        returns:"Returns",
+        payments:"Payments",
+        whatsapp:"WhatsApp",
+        reports:"Reports"
+    };
+
+    document.getElementById("topTitle").textContent=titles[page];
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    renderAll();
+}
+
+
+function openPageByName(page){
+
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    document.getElementById("topTitle").textContent="WhatsApp";
+
+    document.querySelectorAll(".nav-item").forEach(item=>{
+        item.classList.remove("active");
+    });
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(id){
+
+    document.getElementById(id).classList.add("show");
+
+    let today=new Date().toISOString().split("T")[0];
+
+    if(id==="deliveryModal")
+        document.getElementById("deliveryDate").value=today;
+
+    if(id==="salesModal")
+        document.getElementById("salesDate").value=today;
+
+    if(id==="returnModal")
+        document.getElementById("returnDate").value=today;
+}
+
+
+function closeModal(id){
+
+    document.getElementById(id).classList.remove("show");
+
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function money(number){
+
+    return "RM " + Number(number).toFixed(2);
+
+}
+
+
+function saveData(){
+
+    localStorage.setItem("kraveDeliveries",JSON.stringify(deliveries));
+    localStorage.setItem("kraveSales",JSON.stringify(sales));
+    localStorage.setItem("kraveInventory",JSON.stringify(inventory));
+    localStorage.setItem("kraveReturns",JSON.stringify(returns));
+
+}
+
+
+function statusBadge(status){
+
+    if(status==="Delivered")
+        return `<span class="badge badge-green">${status}</span>`;
+
+    if(status==="Pending")
+        return `<span class="badge badge-yellow">${status}</span>`;
+
+    if(status==="Failed")
+        return `<span class="badge badge-red">${status}</span>`;
+
+    if(status==="Paid")
+        return `<span class="badge badge-green">${status}</span>`;
+
+    if(status==="Partial")
+        return `<span class="badge badge-yellow">${status}</span>`;
+
+    return `<span class="badge badge-blue">${status}</span>`;
+
+}
+
+
+/* =========================
+   DELIVERY
+========================= */
+
+document.getElementById("deliveryForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let delivery={
+        id:"DEL"+String(Date.now()).slice(-5),
+        shop:document.getElementById("deliveryShop").value,
+        date:document.getElementById("deliveryDate").value,
+        items:document.getElementById("deliveryItems").value,
+        total:Number(document.getElementById("deliveryTotal").value),
+        status:document.getElementById("deliveryStatus").value
+    };
+
+    deliveries.push(delivery);
+
+    saveData();
+    renderAll();
+
+    this.reset();
+
+    closeModal("deliveryModal");
+
+    alert("Delivery added successfully!");
+
+});
+
+
+function renderDeliveries(){
+
+    let search=document.getElementById("deliverySearch")?.value.toLowerCase() || "";
+
+    let rows="";
+
+    deliveries
+    .filter(d=>d.shop.toLowerCase().includes(search))
+    .forEach(d=>{
+
+        rows+=`
+        <tr>
+            <td>${d.id}</td>
+            <td><strong>${d.shop}</strong></td>
+            <td>${d.date}</td>
+            <td>${d.items}</td>
+            <td>${money(d.total)}</td>
+            <td>${statusBadge(d.status)}</td>
+            <td>
+                <button class="btn btn-info btn-small"
+                    onclick="deliveryWhatsApp('${d.shop}',${d.total})">
+                    WhatsApp
+                </button>
+
+                <button class="btn btn-danger btn-small"
+                    onclick="deleteDelivery('${d.id}')">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("deliveryTable").innerHTML=rows || `
+        <tr>
+            <td colspan="7" style="text-align:center;">No deliveries found.</td>
+        </tr>
+    `;
+
+
+    document.getElementById("recentDeliveries").innerHTML=
+        deliveries.slice(-5).reverse().map(d=>`
+
+        <tr>
+            <td>${d.shop}</td>
+            <td>${d.date}</td>
+            <td>${d.items}</td>
+            <td>${money(d.total)}</td>
+            <td>${statusBadge(d.status)}</td>
+        </tr>
+
+        `).join("");
+
+}
+
+
+function deleteDelivery(id){
+
+    if(confirm("Delete this delivery?")){
+
+        deliveries=deliveries.filter(d=>d.id!==id);
+
+        saveData();
+        renderAll();
+
+    }
+
+}
+
+
+function deliveryWhatsApp(shop,total){
+
+    let message=
+`Hi ${shop}, this is KraVe.
+
+Your delivery has been successfully recorded.
+
+Total amount: RM ${Number(total).toFixed(2)}
+
+Thank you for choosing KraVe!`;
+
+    window.open(
+        "https://wa.me/?text="+encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   SALES
+========================= */
+
+document.getElementById("salesForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let sale={
+        id:"SAL"+String(Date.now()).slice(-5),
+        shop:document.getElementById("salesShop").value,
+        product:document.getElementById("salesProduct").value,
+        qty:Number(document.getElementById("salesQty").value),
+        price:Number(document.getElementById("salesPrice").value),
+        date:document.getElementById("salesDate").value
+    };
+
+    sales.push(sale);
+
+    saveData();
+    renderAll();
+
+    this.reset();
+
+    closeModal("salesModal");
+
+    alert("Sale recorded successfully!");
+
+});
+
+
+function renderSales(){
+
+    let rows="";
+
+    sales.slice().reverse().forEach(s=>{
+
+        let total=s.qty*s.price;
+
+        rows+=`
+        <tr>
+
+            <td>${s.id}</td>
+
+            <td>${s.shop}</td>
+
+            <td>${s.product}</td>
+
+            <td>${s.qty}</td>
+
+            <td>${money(total)}</td>
+
+            <td>${s.date}</td>
+
+            <td>
+
+                <button class="btn btn-danger btn-small"
+                    onclick="deleteSale('${s.id}')">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("salesTable").innerHTML=rows;
+
+}
+
+
+function deleteSale(id){
+
+    if(confirm("Delete this sale?")){
+
+        sales=sales.filter(s=>s.id!==id);
+
+        saveData();
+        renderAll();
+
+    }
+
+}
+
+
+/* =========================
+   INVENTORY
+========================= */
+
+document.getElementById("inventoryForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let item={
+        product:document.getElementById("inventoryProduct").value,
+        category:document.getElementById("inventoryCategory").value,
+        stock:Number(document.getElementById("inventoryStock").value),
+        sold:Number(document.getElementById("inventorySold").value),
+        returned:Number(document.getElementById("inventoryReturned").value)
+    };
+
+    inventory.push(item);
+
+    saveData();
+    renderAll();
+
+    this.reset();
+
+    closeModal("inventoryModal");
+
+    alert("Inventory item added!");
+
+});
+
+
+function renderInventory(){
+
+    let rows="";
+
+    inventory.forEach((i,index)=>{
+
+        let available=i.stock-i.sold;
+
+        let status="Good";
+        let badge="badge-green";
+
+        if(available<=5){
+            status="Low Stock";
+            badge="badge-red";
+        }else if(available<=10){
+            status="Medium";
+            badge="badge-yellow";
+        }
+
+        rows+=`
+        <tr>
+
+            <td><strong>${i.product}</strong></td>
+
+            <td>${i.category}</td>
+
+            <td>${i.stock}</td>
+
+            <td>${i.sold}</td>
+
+            <td>${i.returned}</td>
+
+            <td>
+                <span class="badge ${badge}">
+                    ${status}
+                </span>
+            </td>
+
+            <td>
+                <button class="btn btn-danger btn-small"
+                    onclick="deleteInventory(${index})">
+                    Delete
+                </button>
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("inventoryTable").innerHTML=rows;
+
+}
+
+
+function deleteInventory(index){
+
+    if(confirm("Delete this inventory item?")){
+
+        inventory.splice(index,1);
+
+        saveData();
+        renderAll();
+
+    }
+
+}
+
+
+/* =========================
+   RETURNS
+========================= */
+
+document.getElementById("returnForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let ret={
+        id:"RET"+String(Date.now()).slice(-5),
+        shop:document.getElementById("returnShop").value,
+        product:document.getElementById("returnProduct").value,
+        qty:Number(document.getElementById("returnQty").value),
+        reason:document.getElementById("returnReason").value,
+        date:document.getElementById("returnDate").value
+    };
+
+    returns.push(ret);
+
+    saveData();
+    renderAll();
+
+    this.reset();
+
+    closeModal("returnModal");
+
+    alert("Return recorded successfully!");
+
+});
+
+
+function renderReturns(){
+
+    let rows="";
+
+    returns.slice().reverse().forEach(r=>{
+
+        rows+=`
+        <tr>
+
+            <td>${r.id}</td>
+
+            <td>${r.shop}</td>
+
+            <td>${r.product}</td>
+
+            <td>${r.qty}</td>
+
+            <td>${r.reason}</td>
+
+            <td>${r.date}</td>
+
+            <td>
+
+                <button class="btn btn-danger btn-small"
+                    onclick="deleteReturn('${r.id}')">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("returnsTable").innerHTML=rows;
+
+}
+
+
+function deleteReturn(id){
+
+    if(confirm("Delete this return?")){
+
+        returns=returns.filter(r=>r.id!==id);
+
+        saveData();
+        renderAll();
+
+    }
+
+}
+
+
+/* =========================
+   PAYMENTS
+========================= */
+
+function renderPayments(){
+
+    let paymentData=deliveries.map((d,index)=>{
+
+        let paid=d.status==="Delivered"
+            ? d.total
+            : index===2
+            ? d.total/2
+            : 0;
+
+        let balance=d.total-paid;
+
+        let status=
+            balance===0
+            ? "Paid"
+            : paid>0
+            ? "Partial"
+            : "Pending";
+
+        return {
+            id:"PAY"+String(index+1).padStart(3,"0"),
+            shop:d.shop,
+            invoice:d.id,
+            amount:d.total,
+            paid:paid,
+            balance:balance,
+            status:status
+        };
+
+    });
+
+
+    let rows="";
+
+    paymentData.forEach(p=>{
+
+        rows+=`
+        <tr>
+
+            <td>${p.id}</td>
+
+            <td>${p.shop}</td>
+
+            <td>${p.invoice}</td>
+
+            <td>${money(p.amount)}</td>
+
+            <td>${money(p.paid)}</td>
+
+            <td>${money(p.balance)}</td>
+
+            <td>${statusBadge(p.status)}</td>
+
+            <td>
+                <button class="whatsapp-btn btn-small"
+                    onclick="paymentWhatsApp('${p.shop}',${p.balance})">
+                    WhatsApp
+                </button>
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+    document.getElementById("paymentTable").innerHTML=rows;
+
+
+    let total=paymentData.reduce((a,b)=>a+b.amount,0);
+    let paid=paymentData.reduce((a,b)=>a+b.paid,0);
+    let outstanding=total-paid;
+    let rate=total>0?(paid/total*100):0;
+
+
+    document.getElementById("totalPaid").textContent=money(paid);
+    document.getElementById("paymentOutstanding").textContent=money(outstanding);
+    document.getElementById("paymentTransactions").textContent=paymentData.length;
+    document.getElementById("collectionRate").textContent=rate.toFixed(1)+"%";
+
+}
+
+
+function paymentWhatsApp(shop,balance){
+
+    let message=
+`Hi ${shop},
+
+This is a friendly payment reminder from KraVe.
+
+Your current outstanding balance is RM ${Number(balance).toFixed(2)}.
+
+Please make payment at your earliest convenience.
+
+Thank you,
+KraVe`;
+
+    window.open(
+        "https://wa.me/?text="+encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function sendWhatsApp(){
+
+    let number=document.getElementById("waNumber").value.trim();
+
+    let message=document.getElementById("waMessage").value;
+
+    if(!number || !message){
+
+        alert("Please enter WhatsApp number and message.");
+
+        return;
+
+    }
+
+    number=number.replace(/\D/g,"");
+
+    window.open(
+        "https://wa.me/"+number+"?text="+encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+function setWhatsAppTemplate(type){
+
+    let message="";
+
+    if(type==="delivery"){
+
+        message=
+`Hi [Shop Name],
+
+This is KraVe.
+
+Your food delivery has been successfully delivered today.
+
+Thank you for your cooperation.
+
+Regards,
+KraVe`;
+
+    }
+
+    if(type==="payment"){
+
+        message=
+`Hi [Shop Name],
+
+This is a friendly payment reminder from KraVe.
+
+Please check your outstanding payment and arrange payment when convenient.
+
+Thank you,
+KraVe`;
+
+    }
+
+    if(type==="invoice"){
+
+        message=
+`Hi [Shop Name],
+
+Here is your latest KraVe order summary.
+
+Invoice: [Invoice Number]
+Total Amount: RM [Amount]
+
+Thank you for choosing KraVe!`;
+
+    }
+
+    if(type==="return"){
+
+        message=
+`Hi [Shop Name],
+
+KraVe has recorded the following returned items:
+
+Product: [Product]
+Quantity: [Quantity]
+Reason: [Reason]
+
+Thank you for the update.
+
+Regards,
+KraVe`;
+
+    }
+
+    document.getElementById("waMessage").value=message;
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard(){
+
+    let today=new Date().toISOString().split("T")[0];
+
+    let todaySales=sales
+        .filter(s=>s.date===today)
+        .reduce((sum,s)=>sum+(s.qty*s.price),0);
+
+    document.getElementById("todaySales").textContent=money(todaySales);
+
+    document.getElementById("totalDeliveries").textContent=deliveries.length;
+
+    let outstanding=deliveries.reduce((sum,d)=>{
+
+        if(d.status==="Delivered") return sum;
+
+        return sum+d.total;
+
+    },0);
+
+    document.getElementById("outstanding").textContent=money(outstanding);
+
+    document.getElementById("totalReturns").textContent=
+        returns.reduce((sum,r)=>sum+r.qty,0);
+
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+function renderChart(){
+
+    let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+    let values=[420,650,500,780,900,1100,850];
+
+    let max=Math.max(...values);
+
+    document.getElementById("salesChart").innerHTML=
+
+        days.map((day,i)=>{
+
+            let height=(values[i]/max)*85;
+
+            return `
+            <div class="bar-wrap">
+
+                <div class="bar-value">
+                    RM ${values[i]}
+                </div>
+
+                <div class="bar"
+                    style="height:${height}%">
+                </div>
+
+                <div class="bar-label">
+                    ${day}
+                </div>
+
+            </div>
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================
+   REPORTS
+========================= */
+
+function renderReports(){
+
+    let totalSales=sales.reduce(
+        (sum,s)=>sum+(s.qty*s.price),0
+    );
+
+    let totalPaid=deliveries
+        .filter(d=>d.status==="Delivered")
+        .reduce((sum,d)=>sum+d.total,0);
+
+    let totalDeliveryValue=deliveries.reduce(
+        (sum,d)=>sum+d.total,0
+    );
+
+    let outstanding=totalDeliveryValue-totalPaid;
+
+    let totalReturns=returns.reduce(
+        (sum,r)=>sum+r.qty,0
+    );
+
+    let rate=totalDeliveryValue>0
+        ?(totalPaid/totalDeliveryValue*100)
+        :0;
+
+
+    document.getElementById("reportSales").textContent=
+        money(totalSales);
+
+    document.getElementById("reportDeliveries").textContent=
+        deliveries.length;
+
+    document.getElementById("reportReturns").textContent=
+        totalReturns;
+
+    document.getElementById("reportPaid").textContent=
+        money(totalPaid);
+
+    document.getElementById("reportOutstanding").textContent=
+        money(outstanding);
+
+    document.getElementById("reportRate").textContent=
+        rate.toFixed(1)+"%";
+
+
+    document.getElementById("reportSummary").innerHTML=
+
+        `KraVe currently has <strong>${deliveries.length}</strong>
+        delivery records and total recorded sales of
+        <strong>${money(totalSales)}</strong>.
+        There are <strong>${totalReturns}</strong> returned food items
+        and the current outstanding amount is
+        <strong>${money(outstanding)}</strong>.`;
+}
+
+
+/* =========================
+   RENDER ALL
+========================= */
+
+function renderAll(){
+
+    renderDeliveries();
+    renderSales();
+    renderInventory();
+    renderReturns();
+    renderPayments();
+    updateDashboard();
+    renderChart();
+    renderReports();
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+function toggleSidebar(){
+
+    document.getElementById("sidebar").classList.toggle("open");
+
+}
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+window.addEventListener("load",function(){
+
+    if(localStorage.getItem("kraveLoggedIn")==="true"){
+
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("app").style.display="block";
+
+        renderAll();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
